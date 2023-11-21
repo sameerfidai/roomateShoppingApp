@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "975513010017",
+    "project_id": "roomateshoppingapp-34cc3",
+    "storage_bucket": "roomateshoppingapp-34cc3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:975513010017:android:58b45a5ed0aff626b74f20",
+        "android_client_info": {
+          "package_name": "edu.uga.cs.roomateshoppingapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArsYW6_3XabB0_V-vr4VaWfiornUQorsc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
