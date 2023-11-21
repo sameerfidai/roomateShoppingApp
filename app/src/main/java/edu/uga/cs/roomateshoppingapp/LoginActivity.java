@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // check if user is signed in (non-null) and update UI accordingly
+        // if user is already signed, go to main screen
         if (mAuth != null) {
             FirebaseUser currentUser = mAuth.getCurrentUser();
             if (currentUser != null) {
@@ -65,6 +66,10 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this, "Please enter email", Toast.LENGTH_SHORT).show();
                 return;
             }
+            if (!(Patterns.EMAIL_ADDRESS.matcher(email).matches())) {
+                Toast.makeText(this, "Please enter a valid email", Toast.LENGTH_SHORT).show();
+                return;
+            }
             if (TextUtils.isEmpty(password)) {
                 Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
                 return;
@@ -87,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithEmail:failure", task.getException());
-                        Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
                     }
                 }
             });

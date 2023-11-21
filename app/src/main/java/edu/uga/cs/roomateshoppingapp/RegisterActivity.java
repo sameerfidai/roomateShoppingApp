@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +18,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -60,6 +62,14 @@ public class RegisterActivity extends AppCompatActivity {
                 Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
                 return;
             }
+            if (!(Patterns.EMAIL_ADDRESS.matcher(email).matches())) {
+                Toast.makeText(this, "Please enter a valid email", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (password.length() < 6) {
+                Toast.makeText(this, "Password should be atleast 6 characters", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
             progressBarRegister.setVisibility(View.VISIBLE);
 
@@ -76,8 +86,14 @@ public class RegisterActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     } else {
+                        // If registration fails, check if it's due to email collision
+                        if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                            Toast.makeText(RegisterActivity.this, "Email already in use", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Other errors
+                            Toast.makeText(RegisterActivity.this, "Registration failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                        Toast.makeText(RegisterActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
