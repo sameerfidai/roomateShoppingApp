@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseUser user;
-    private Button logoutButton;
+    private Button logoutButton, viewShoppingListButton;
     private TextView userDetails;
 
     @Override
@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         user = mAuth.getCurrentUser();
         logoutButton = findViewById(R.id.logoutBtn);
         userDetails = findViewById(R.id.user_details);
+        viewShoppingListButton = findViewById(R.id.viewListBtn);
 
         // open login activity if user is not logged in
         if (user == null) {
@@ -42,6 +43,13 @@ public class MainActivity extends AppCompatActivity {
             FirebaseAuth.getInstance().signOut();
             Toast.makeText(MainActivity.this, "Logged out", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+        // view shopping list
+        viewShoppingListButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ShoppingListActivity.class);
             startActivity(intent);
             finish();
         });
