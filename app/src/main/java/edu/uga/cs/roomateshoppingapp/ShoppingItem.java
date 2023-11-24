@@ -32,6 +32,16 @@ public class ShoppingItem {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return "ShoppingItem{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", isPurchased=" + isPurchased +
+                ", purchaserId='" + purchaserId + '\'' +
+                '}';
+    }
+
     public boolean isPurchased() {
         return isPurchased;
     }

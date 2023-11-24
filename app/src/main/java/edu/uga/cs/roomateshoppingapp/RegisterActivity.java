@@ -20,6 +20,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -80,11 +82,23 @@ public class RegisterActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "createUserWithEmail:success");
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        Toast.makeText(RegisterActivity.this, "Registered", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                        finish();
+                        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                        if (firebaseUser != null) {
+                            // Create an instance of FirebaseDatabase and a reference to the 'users' node
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            DatabaseReference usersRef = database.getReference("users");
+
+                            // Create a new User object with the user's ID and email
+                            User newUser = new User(firebaseUser.getUid(), name, email, null);
+                            // Add the new user to the database
+                            usersRef.child(firebaseUser.getUid()).setValue(newUser);
+
+                            // Show a success message and redirect to the login screen
+                            Toast.makeText(RegisterActivity.this, "Registered", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
                     } else {
                         // If registration fails, check if it's due to email collision
                         if (task.getException() instanceof FirebaseAuthUserCollisionException) {
