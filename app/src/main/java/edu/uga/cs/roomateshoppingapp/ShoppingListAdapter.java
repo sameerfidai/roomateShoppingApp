@@ -16,13 +16,22 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
 
     private List<ShoppingItem> shoppingItemList;
     private OnDeleteClickListener onDeleteClickListener;
+    private OnItemClickListener onItemClickListener;
 
     public ShoppingListAdapter(List<ShoppingItem> shoppingItemList) {
         this.shoppingItemList = shoppingItemList;
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(ShoppingItem item);
+    }
+
     public interface OnDeleteClickListener {
         void onDeleteClicked(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
     }
 
     public void setOnDeleteClickListener(OnDeleteClickListener listener) {
@@ -52,10 +61,12 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
         TextView itemNameTextView;
         CheckBox itemPurchasedCheckbox;
         Button deleteItemButton;
+        Button updateItemButton;
 
         public ViewHolder(View itemView) {
             super(itemView);
             deleteItemButton = itemView.findViewById(R.id.deleteItemButton);
+            updateItemButton = itemView.findViewById(R.id.updateItemButton);
             itemNameTextView = itemView.findViewById(R.id.itemNameTextView);
             itemPurchasedCheckbox = itemView.findViewById(R.id.itemPurchasedCheckbox);
 
@@ -63,6 +74,13 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION && onDeleteClickListener != null) {
                     onDeleteClickListener.onDeleteClicked(position);
+                }
+            });
+
+            updateItemButton.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION && onItemClickListener != null) {
+                    onItemClickListener.onItemClick(shoppingItemList.get(position));
                 }
             });
         }

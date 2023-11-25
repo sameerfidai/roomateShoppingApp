@@ -71,8 +71,13 @@ public class ShoppingListActivity extends AppCompatActivity {
             }
         });
 
+        // on click for add to list button
         addItemFab.setOnClickListener(v -> showAddItemDialog());
 
+        // on click for updating an item
+        adapter.setOnItemClickListener(item -> showUpdateItemDialog(item));
+
+        // on click for deleting an item
         adapter.setOnDeleteClickListener(position -> {
             ShoppingItem item = shoppingItemList.get(position);
             new AlertDialog.Builder(this)
@@ -84,6 +89,40 @@ public class ShoppingListActivity extends AppCompatActivity {
         });
     }
 
+    private void showUpdateItemDialog(ShoppingItem item) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Update Item");
+
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setText(item.getName());
+        builder.setView(input);
+
+        builder.setPositiveButton("Update", (dialog, which) -> {
+            String updatedName = input.getText().toString().trim();
+            if (!updatedName.isEmpty()) {
+                updateItem(item.getId(), updatedName);
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+        builder.show();
+    }
+
+    private void updateItem(String itemId, String updatedName) {
+        shoppingListRef.child(itemId).child("name").setValue(updatedName).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(ShoppingListActivity.this, "Item updated", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(ShoppingListActivity.this, "Failed to update item: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * Delete an item from the shopping list
+     *
+     * @param item item to be deleted
+     */
     private void deleteItem(ShoppingItem item) {
         if (item != null && item.getId() != null) {
             Log.d("ShoppingListActivity", "Deleting item: " + item.getId()); // Log the item ID
@@ -100,7 +139,9 @@ public class ShoppingListActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * Show the add item dialog to add an item.
+     */
     private void showAddItemDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add New Item");
@@ -125,6 +166,11 @@ public class ShoppingListActivity extends AppCompatActivity {
         builder.show();
     }
 
+    /**
+     * Add an item to the shopping list.
+     *
+     * @param itemName name of item
+     */
     private void addItemToList(String itemName) {
         String itemId = shoppingListRef.push().getKey();
         if (itemId != null) {
@@ -140,5 +186,4 @@ public class ShoppingListActivity extends AppCompatActivity {
             Toast.makeText(ShoppingListActivity.this, "Error creating item", Toast.LENGTH_SHORT).show();
         }
     }
-
 }
