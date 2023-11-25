@@ -72,7 +72,34 @@ public class ShoppingListActivity extends AppCompatActivity {
         });
 
         addItemFab.setOnClickListener(v -> showAddItemDialog());
+
+        adapter.setOnDeleteClickListener(position -> {
+            ShoppingItem item = shoppingItemList.get(position);
+            new AlertDialog.Builder(this)
+                    .setTitle("Delete Item")
+                    .setMessage("Are you sure you want to delete this item?")
+                    .setPositiveButton("Delete", (dialog, which) -> deleteItem(item))
+                    .setNegativeButton("Cancel", null)
+                    .show();
+        });
     }
+
+    private void deleteItem(ShoppingItem item) {
+        if (item != null && item.getId() != null) {
+            Log.d("ShoppingListActivity", "Deleting item: " + item.getId()); // Log the item ID
+
+            shoppingListRef.child(item.getId()).removeValue().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Toast.makeText(ShoppingListActivity.this, "Item deleted", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ShoppingListActivity.this, "Failed to delete item: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Toast.makeText(ShoppingListActivity.this, "Error: Item or Item ID is null", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     private void showAddItemDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
