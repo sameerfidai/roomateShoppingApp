@@ -4,7 +4,9 @@ public class ShoppingItem {
     private String id;
     private String name;
     private boolean isPurchased;
+    private boolean isInCart;
     private String purchaserId;
+    private double price;
 
     public ShoppingItem() {
     }
@@ -14,6 +16,22 @@ public class ShoppingItem {
         this.name = name;
         this.isPurchased = isPurchased;
         this.purchaserId = purchaserId;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public boolean isInCart() {
+        return isInCart;
+    }
+
+    public void setInCart(boolean inCart) {
+        isInCart = inCart;
     }
 
     public String getId() {

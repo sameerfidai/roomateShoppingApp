@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DatabaseReference;
+
 import java.util.List;
 
 public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapter.ViewHolder> {
@@ -17,9 +19,12 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
     private List<ShoppingItem> shoppingItemList;
     private OnDeleteClickListener onDeleteClickListener;
     private OnItemClickListener onItemClickListener;
+    private DatabaseReference shoppingListRef; // Add this line to store the DatabaseReference
 
-    public ShoppingListAdapter(List<ShoppingItem> shoppingItemList) {
+
+    public ShoppingListAdapter(List<ShoppingItem> shoppingItemList, DatabaseReference shoppingListRef) {
         this.shoppingItemList = shoppingItemList;
+        this.shoppingListRef = shoppingListRef;
     }
 
     public interface OnItemClickListener {
@@ -46,11 +51,24 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ShoppingListAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        // Get the current ShoppingItem
         ShoppingItem item = shoppingItemList.get(position);
+
+        // Set the text and checkbox state
         holder.itemNameTextView.setText(item.getName());
-        holder.itemPurchasedCheckbox.setChecked(item.isPurchased());
+        holder.itemPurchasedCheckbox.setChecked(item.isInCart());
+
+        // Remove previous listeners
+        holder.itemPurchasedCheckbox.setOnCheckedChangeListener(null);
+
+        // Set the checkbox listener
+        holder.itemPurchasedCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            // Update the item's inCart status in Firebase
+            shoppingListRef.child(item.getId()).child("inCart").setValue(isChecked);
+        });
     }
+
 
     @Override
     public int getItemCount() {

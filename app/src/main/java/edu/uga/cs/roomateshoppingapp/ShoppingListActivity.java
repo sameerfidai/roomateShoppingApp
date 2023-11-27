@@ -41,8 +41,6 @@ public class ShoppingListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         shoppingItemList = new ArrayList<>();
-        adapter = new ShoppingListAdapter(shoppingItemList);
-        recyclerView.setAdapter(adapter);
 
         String listId = getIntent().getStringExtra("listId");
         if (listId == null) {
@@ -53,6 +51,9 @@ public class ShoppingListActivity extends AppCompatActivity {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         shoppingListRef = database.getReference("shoppingLists").child(listId).child("items");
+
+        adapter = new ShoppingListAdapter(shoppingItemList, shoppingListRef); // Pass the reference here
+        recyclerView.setAdapter(adapter);
 
         shoppingListRef.addValueEventListener(new ValueEventListener() {
             @Override

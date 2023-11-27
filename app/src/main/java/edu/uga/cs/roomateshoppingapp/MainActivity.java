@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseUser user;
-    private Button logoutButton, viewShoppingListButton, createListButton, joinListButton;
+    private Button logoutButton, viewShoppingListButton, createListButton, joinListButton, viewCartButton;
     private TextView userDetails;
 
     // References to Firebase Database nodes
@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         logoutButton = findViewById(R.id.logoutBtn);
         userDetails = findViewById(R.id.user_details);
         viewShoppingListButton = findViewById(R.id.viewListBtn);
+        viewCartButton = findViewById(R.id.viewCartBtn);
         createListButton = findViewById(R.id.createListBtn);
         joinListButton = findViewById(R.id.joinListBtn);
 
@@ -94,6 +95,28 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             });
+
+            viewCartButton.setOnClickListener(v -> {
+                usersRef.child(user.getUid()).child("listId").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        String listId = dataSnapshot.getValue(String.class);
+                        if (listId != null) {
+                            Intent intent = new Intent(MainActivity.this, ShoppingCartActivity.class);
+                            intent.putExtra("listId", listId);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(MainActivity.this, "No shopping list found", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(MainActivity.this, "Error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            });
+
 
             // View the shopping list
             viewShoppingListButton.setOnClickListener(v -> {
@@ -219,6 +242,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
 }
