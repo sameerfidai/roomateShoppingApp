@@ -42,10 +42,10 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
 
         if (item.getPrice() == 0) {
             holder.itemPriceTextView.setText("Set Price");
-            holder.itemPriceTextView.setOnClickListener(view -> showPriceDialog(holder, item, position));
         } else {
             holder.itemPriceTextView.setText(String.format("$%.2f", item.getPrice()));
         }
+        holder.itemPriceTextView.setOnClickListener(view -> showPriceDialog(holder, item, position));
     }
 
     @Override

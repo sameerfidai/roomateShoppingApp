@@ -7,6 +7,7 @@ public class ShoppingItem {
     private boolean isInCart;
     private String purchaserId;
     private double price;
+    private String purchaserName;
 
     public ShoppingItem() {
     }
@@ -16,6 +17,14 @@ public class ShoppingItem {
         this.name = name;
         this.isPurchased = isPurchased;
         this.purchaserId = purchaserId;
+    }
+
+    public String getPurchaserName() {
+        return purchaserName;
+    }
+
+    public void setPurchaserName(String purchaserName) {
+        this.purchaserName = purchaserName;
     }
 
     public double getPrice() {

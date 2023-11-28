@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseUser user;
-    private Button logoutButton, viewShoppingListButton, createListButton, joinListButton, viewCartButton;
+    private Button logoutButton, viewShoppingListButton, createListButton, joinListButton, viewCartButton, viewPurchasedItemsBtn;
     private TextView userDetails;
 
     // References to Firebase Database nodes
@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         viewCartButton = findViewById(R.id.viewCartBtn);
         createListButton = findViewById(R.id.createListBtn);
         joinListButton = findViewById(R.id.joinListBtn);
+        viewPurchasedItemsBtn = findViewById(R.id.btnViewPurchasedItems);
 
         // Initially hide both buttons until we know the user's list status
         createListButton.setVisibility(View.GONE);
@@ -94,6 +95,11 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
+            });
+
+            viewPurchasedItemsBtn.setOnClickListener(v -> {
+                Intent intent = new Intent(MainActivity.this, PurchasedItemsActivity.class);
+                startActivity(intent);
             });
 
             viewCartButton.setOnClickListener(v -> {
