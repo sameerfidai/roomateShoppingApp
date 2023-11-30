@@ -104,8 +104,10 @@ public class ShoppingCartActivity extends AppCompatActivity {
                     }
 
                     // Create a single purchase record for all items
-                    PurchaseRecord purchaseRecord = new PurchaseRecord(totalPrice[0], purchaserName, itemNames);
                     DatabaseReference purchaseRef = FirebaseDatabase.getInstance().getReference("recentlyPurchased").push();
+                    PurchaseRecord purchaseRecord = new PurchaseRecord(totalPrice[0], purchaserName, itemNames);
+                    String purchaseRecordId = purchaseRef.getKey(); // Get the Firebase-generated key
+                    purchaseRecord.setId(purchaseRecordId); // Set the ID of the PurchaseRecord
                     purchaseRef.setValue(purchaseRecord);
 
                     // Show checkout confirmation
@@ -119,7 +121,6 @@ public class ShoppingCartActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void showCheckoutConfirmation(double totalPrice, String purchaserId) {
         // Format the price to two decimal places

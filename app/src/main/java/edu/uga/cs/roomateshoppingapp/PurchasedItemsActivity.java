@@ -32,7 +32,7 @@ public class PurchasedItemsActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.purchasedItemsRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new PurchasedItemsAdapter(purchasedRecordsList);
+        adapter = new PurchasedItemsAdapter(this, purchasedRecordsList);
         recyclerView.setAdapter(adapter);
 
         // Replace with the correct reference to your Firebase database

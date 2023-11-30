@@ -3,6 +3,7 @@ package edu.uga.cs.roomateshoppingapp;
 import java.util.List;
 
 public class PurchaseRecord {
+    private String id; // Unique identifier for the purchase record
     private double totalPrice;
     private String purchaserName;
     private List<String> itemNames;
@@ -15,6 +16,14 @@ public class PurchaseRecord {
         this.totalPrice = totalPrice;
         this.purchaserName = purchaserName;
         this.itemNames = itemNames;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public double getTotalPrice() {
