@@ -1,21 +1,23 @@
 package edu.uga.cs.roomateshoppingapp;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PurchaseRecord {
     private String id; // Unique identifier for the purchase record
     private double totalPrice;
     private String purchaserName;
-    private List<String> itemNames;
+    private Map<String, Double> itemDetails;
 
     public PurchaseRecord() {
-
+        itemDetails = new HashMap<>();
     }
 
-    public PurchaseRecord(double totalPrice, String purchaserName, List<String> itemNames) {
+    public PurchaseRecord(double totalPrice, String purchaserName, Map<String, Double> itemDetails) {
         this.totalPrice = totalPrice;
         this.purchaserName = purchaserName;
-        this.itemNames = itemNames;
+        this.itemDetails = itemDetails;
     }
 
     public String getId() {
@@ -42,11 +44,11 @@ public class PurchaseRecord {
         this.purchaserName = purchaserName;
     }
 
-    public List<String> getItemNames() {
-        return itemNames;
+    public Map<String, Double> getItemDetails() {
+        return itemDetails;
     }
 
-    public void setItemNames(List<String> itemNames) {
-        this.itemNames = itemNames;
+    public void setItemDetails(Map<String, Double> itemDetails) {
+        this.itemDetails = itemDetails;
     }
 }

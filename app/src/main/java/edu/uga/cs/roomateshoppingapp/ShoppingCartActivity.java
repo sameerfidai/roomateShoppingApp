@@ -21,8 +21,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class ShoppingCartActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -81,7 +83,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
 
     private void checkoutItems() {
         final double[] totalPrice = {0};
-        List<String> itemNames = new ArrayList<>();
+        Map<String, Double> itemDetails = new HashMap<>();
         String purchaserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(purchaserId);
 
@@ -95,7 +97,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
                     for (ShoppingItem item : shoppingCartItemList) {
                         if (item.isInCart()) {
                             totalPrice[0] += item.getPrice();
-                            itemNames.add(item.getName()); // Collect names of all purchased items
+                            itemDetails.put(item.getName(), item.getPrice()); // Store item details with price
 
                             // Update the item's status in the shopping list
                             item.setInCart(false);
@@ -105,8 +107,8 @@ public class ShoppingCartActivity extends AppCompatActivity {
 
                     // Create a single purchase record for all items
                     DatabaseReference purchaseRef = FirebaseDatabase.getInstance().getReference("recentlyPurchased").push();
-                    PurchaseRecord purchaseRecord = new PurchaseRecord(totalPrice[0], purchaserName, itemNames);
                     String purchaseRecordId = purchaseRef.getKey(); // Get the Firebase-generated key
+                    PurchaseRecord purchaseRecord = new PurchaseRecord(totalPrice[0], purchaserName, itemDetails);
                     purchaseRecord.setId(purchaseRecordId); // Set the ID of the PurchaseRecord
                     purchaseRef.setValue(purchaseRecord);
 
@@ -122,25 +124,22 @@ public class ShoppingCartActivity extends AppCompatActivity {
         });
     }
 
-    private void showCheckoutConfirmation(double totalPrice, String purchaserId) {
-        // Format the price to two decimal places
+    private void showCheckoutConfirmation(double totalPrice, String purchaserName) {
         String formattedPrice = String.format(Locale.getDefault(), "$%.2f", totalPrice);
 
-        // Use an AlertDialog for confirmation
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(ShoppingCartActivity.this)
                 .setTitle("Checkout Complete")
                 .setMessage("Total Price: " + formattedPrice)
                 .setPositiveButton("Go to Main", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        // Go to MainActivity
                         Intent intent = new Intent(ShoppingCartActivity.this, MainActivity.class);
                         startActivity(intent);
                     }
                 })
                 .setNegativeButton("View Purchases", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        // Go to PurchasedItemsActivity
                         Intent intent = new Intent(ShoppingCartActivity.this, PurchasedItemsActivity.class);
+                        intent.putExtra("listId", listId); // Pass the listId to PurchasedItemsActivity
                         startActivity(intent);
                     }
                 })

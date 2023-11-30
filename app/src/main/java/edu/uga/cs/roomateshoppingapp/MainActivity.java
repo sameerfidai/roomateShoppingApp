@@ -98,9 +98,26 @@ public class MainActivity extends AppCompatActivity {
             });
 
             viewPurchasedItemsBtn.setOnClickListener(v -> {
-                Intent intent = new Intent(MainActivity.this, PurchasedItemsActivity.class);
-                startActivity(intent);
+                usersRef.child(user.getUid()).child("listId").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        String listId = dataSnapshot.getValue(String.class);
+                        if (listId != null) {
+                            Intent intent = new Intent(MainActivity.this, PurchasedItemsActivity.class);
+                            intent.putExtra("listId", listId);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(MainActivity.this, "No shopping list found", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(MainActivity.this, "Error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             });
+
 
             viewCartButton.setOnClickListener(v -> {
                 usersRef.child(user.getUid()).child("listId").addListenerForSingleValueEvent(new ValueEventListener() {

@@ -23,16 +23,24 @@ public class PurchasedItemsActivity extends AppCompatActivity {
     private PurchasedItemsAdapter adapter;
     private DatabaseReference recentlyPurchasedRef;
     private List<PurchaseRecord> purchasedRecordsList = new ArrayList<>(); // List of PurchaseRecords
+    private String listId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_purchased_items);
 
+        listId = getIntent().getStringExtra("listId");
+        if (listId == null) {
+            Toast.makeText(this, "List ID not provided", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
         recyclerView = findViewById(R.id.purchasedItemsRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new PurchasedItemsAdapter(this, purchasedRecordsList);
+        adapter = new PurchasedItemsAdapter(this, purchasedRecordsList, listId);
         recyclerView.setAdapter(adapter);
 
         // Replace with the correct reference to your Firebase database
