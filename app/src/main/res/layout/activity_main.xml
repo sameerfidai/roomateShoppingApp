@@ -13,6 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -21,8 +23,7 @@
         <TextView
             android:id="@+id/user_details"
             android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="start|center_vertical"
             android:text="Email" />
@@ -31,83 +32,60 @@
         <Button
             android:id="@+id/logoutBtn"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="end"
-            android:layout_marginRight="20dp"
+            android:layout_height="wrap_content"
             android:backgroundTint="#000000"
             android:text="Log out" />
-
     </LinearLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/mainLayoutContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topBarLayoutContainer">
 
-        <!-- View Shopping List Button -->
-
-        <!-- Create List Button -->
-
-        <!-- Join List Button -->
         <Button
             android:id="@+id/viewListBtn"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="188dp"
-            android:text="View Shopping List"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginTop="8dp"
+            android:text="View Shopping List" />
 
         <Button
             android:id="@+id/viewCartBtn"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:text="View Cart"
-            app:layout_constraintBottom_toTopOf="@+id/viewListBtn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:layout_marginTop="8dp"
+            android:text="View Cart" />
 
         <Button
             android:id="@+id/createListBtn"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="8dp"
             android:text="Create List"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/viewListBtn" />
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/joinListBtn"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="92dp"
+            android:layout_marginTop="8dp"
             android:text="Join List"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/createListBtn" />
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/btnViewPurchasedItems"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="View Purchased Items"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_marginTop="8dp"
+            android:text="View Purchased Items" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
