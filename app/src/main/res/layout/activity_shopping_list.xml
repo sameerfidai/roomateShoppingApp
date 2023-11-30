@@ -20,8 +20,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:contentDescription="@string/add_item"
-        android:src="@drawable/common_full_open_on_phone"
-        app:backgroundTint="#673AB7"
+        android:src="@drawable/add"
+        app:backgroundTint="#FFFFFF"
         app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
