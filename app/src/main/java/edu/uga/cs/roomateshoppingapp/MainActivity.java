@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser user;
     private Button logoutButton, viewShoppingListButton, createListButton, joinListButton, viewCartButton, viewPurchasedItemsBtn;
-    private TextView userDetails;
+    private TextView userDetails, inviteCodeTextView;
 
     // References to Firebase Database nodes
     private FirebaseDatabase database;
@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         user = mAuth.getCurrentUser();
         logoutButton = findViewById(R.id.logoutBtn);
         userDetails = findViewById(R.id.user_details);
+        inviteCodeTextView = findViewById(R.id.joinCodeTextView);
         viewShoppingListButton = findViewById(R.id.viewListBtn);
         viewCartButton = findViewById(R.id.viewCartBtn);
         createListButton = findViewById(R.id.createListBtn);
@@ -65,8 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Check if the user is logged in and display their details
         if (user == null) {
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
         } else {
             userDetails.setText(user.getEmail());
@@ -75,7 +75,10 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     User currentUser = dataSnapshot.getValue(User.class);
-                    if (currentUser != null && currentUser.getListId() == null) {
+                    if (currentUser != null && currentUser.getListId() != null) {
+                        // User has a list, retrieve the invite code
+                        retrieveInviteCode(currentUser.getListId());
+                    } else {
                         // User does not have a list, show both buttons
                         createListButton.setVisibility(View.VISIBLE);
                         joinListButton.setVisibility(View.VISIBLE);
@@ -90,10 +93,9 @@ public class MainActivity extends AppCompatActivity {
 
             // Log the user out
             logoutButton.setOnClickListener(v -> {
-                FirebaseAuth.getInstance().signOut();
+                mAuth.signOut();
                 Toast.makeText(MainActivity.this, "Logged out", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 finish();
             });
 
@@ -250,9 +252,10 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Joined Shopping List", Toast.LENGTH_SHORT).show();
 
                         // Redirect to the ShoppingListActivity with the listId
-                        Intent intent = new Intent(MainActivity.this, ShoppingListActivity.class);
+                        Intent intent = new Intent(MainActivity.this, MainActivity.class);
                         intent.putExtra("listId", listId); // Passing the listId to the ShoppingListActivity
                         startActivity(intent);
+                        finish();
                     }
                 } else {
                     Toast.makeText(MainActivity.this, "Invalid Invite Code", Toast.LENGTH_SHORT).show();
@@ -262,6 +265,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Toast.makeText(MainActivity.this, "Error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void retrieveInviteCode(String listId) {
+        shoppingListsRef.child(listId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                String inviteCode = snapshot.child("inviteCode").getValue(String.class);
+                if (inviteCode != null) {
+                    inviteCodeTextView.setText(String.format("Invite Code: %s", inviteCode));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.w(TAG, "loadInviteCode:onCancelled", error.toException());
             }
         });
     }

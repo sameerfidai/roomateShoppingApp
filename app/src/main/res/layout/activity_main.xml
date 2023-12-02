@@ -86,6 +86,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="View Purchased Items" />
+
+        <TextView
+            android:id="@+id/joinCodeTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="78dp"
+            android:gravity="center"
+            android:text="Join Code: XXXXXX"
+            android:textSize="18sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
