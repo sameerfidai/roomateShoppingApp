@@ -28,7 +28,7 @@ public class RegisterActivity extends AppCompatActivity {
     private final static String TAG = "RegisterActivity";
 
     private EditText registerName, registerEmail, registerPassword;
-    private Button registerButton;
+    private Button registerButton, loginPage;
     private ProgressBar progressBarRegister;
 
     FirebaseAuth mAuth;
@@ -45,7 +45,13 @@ public class RegisterActivity extends AppCompatActivity {
         registerPassword = findViewById(R.id.registerPasswordEditText);
         registerButton = findViewById(R.id.registerBtn);
         progressBarRegister = findViewById(R.id.progressBarRegister);
+        loginPage = findViewById(R.id.loginPage);
 
+        loginPage.setOnClickListener(v -> {
+            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        });
         // register the user
         registerButton.setOnClickListener(v -> {
             String name = registerName.getText().toString();
