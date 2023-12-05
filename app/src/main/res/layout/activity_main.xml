@@ -35,66 +35,71 @@
             android:layout_height="wrap_content"
             android:backgroundTint="#000000"
             android:text="Log out" />
+
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/mainLayoutContainer"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topBarLayoutContainer">
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="112dp">
 
-        <Button
-            android:id="@+id/viewListBtn"
+        <LinearLayout
+            android:id="@+id/mainLayoutContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="View Shopping List" />
+            android:layout_marginTop="16dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <Button
-            android:id="@+id/viewCartBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="View Cart" />
+            <Button
+                android:id="@+id/viewListBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="View Shopping List" />
 
-        <Button
-            android:id="@+id/createListBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Create List"
-            android:visibility="gone" />
+            <Button
+                android:id="@+id/viewCartBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="View Cart" />
 
-        <Button
-            android:id="@+id/joinListBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Join List"
-            android:visibility="gone" />
+            <Button
+                android:id="@+id/createListBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Create List"
+                android:visibility="gone" />
 
-        <Button
-            android:id="@+id/btnViewPurchasedItems"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="View Purchased Items" />
+            <Button
+                android:id="@+id/joinListBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Join List"
+                android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/joinCodeTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="78dp"
-            android:gravity="center"
-            android:text="Join Code: XXXXXX"
-            android:textSize="18sp" />
-    </LinearLayout>
+            <Button
+                android:id="@+id/btnViewPurchasedItems"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="View Purchased Items" />
+
+            <TextView
+                android:id="@+id/joinCodeTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="78dp"
+                android:gravity="center"
+                android:text="Join Code: XXXXXX"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
