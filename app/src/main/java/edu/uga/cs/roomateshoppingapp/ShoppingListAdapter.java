@@ -19,7 +19,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
     private List<ShoppingItem> shoppingItemList;
     private OnDeleteClickListener onDeleteClickListener;
     private OnItemClickListener onItemClickListener;
-    private DatabaseReference shoppingListRef; // Add this line to store the DatabaseReference
+    private DatabaseReference shoppingListRef;
 
 
     public ShoppingListAdapter(List<ShoppingItem> shoppingItemList, DatabaseReference shoppingListRef) {

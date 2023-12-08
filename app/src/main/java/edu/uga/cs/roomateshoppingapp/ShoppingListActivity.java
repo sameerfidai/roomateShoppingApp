@@ -52,7 +52,7 @@ public class ShoppingListActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         shoppingListRef = database.getReference("shoppingLists").child(listId).child("items");
 
-        adapter = new ShoppingListAdapter(shoppingItemList, shoppingListRef); // Pass the reference here
+        adapter = new ShoppingListAdapter(shoppingItemList, shoppingListRef);
         recyclerView.setAdapter(adapter);
 
         shoppingListRef.addValueEventListener(new ValueEventListener() {
@@ -119,14 +119,9 @@ public class ShoppingListActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Delete an item from the shopping list
-     *
-     * @param item item to be deleted
-     */
     private void deleteItem(ShoppingItem item) {
         if (item != null && item.getId() != null) {
-            Log.d("ShoppingListActivity", "Deleting item: " + item.getId()); // Log the item ID
+            Log.d("ShoppingListActivity", "Deleting item: " + item.getId());
 
             shoppingListRef.child(item.getId()).removeValue().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
@@ -140,9 +135,6 @@ public class ShoppingListActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Show the add item dialog to add an item.
-     */
     private void showAddItemDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add New Item");
@@ -167,11 +159,6 @@ public class ShoppingListActivity extends AppCompatActivity {
         builder.show();
     }
 
-    /**
-     * Add an item to the shopping list.
-     *
-     * @param itemName name of item
-     */
     private void addItemToList(String itemName) {
         String itemId = shoppingListRef.push().getKey();
         if (itemId != null) {

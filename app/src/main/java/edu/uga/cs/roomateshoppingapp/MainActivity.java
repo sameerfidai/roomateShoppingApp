@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             });
 
+            // view purchased items record
             viewPurchasedItemsBtn.setOnClickListener(v -> {
                 usersRef.child(user.getUid()).child("listId").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -121,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
             });
 
 
+            // view cart
             viewCartButton.setOnClickListener(v -> {
                 usersRef.child(user.getUid()).child("listId").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override

@@ -107,7 +107,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
 
                     // Create a single purchase record for all items
                     DatabaseReference purchaseRef = FirebaseDatabase.getInstance().getReference("recentlyPurchased").push();
-                    String purchaseRecordId = purchaseRef.getKey(); // Get the Firebase-generated key
+                    String purchaseRecordId = purchaseRef.getKey();
                     PurchaseRecord purchaseRecord = new PurchaseRecord(totalPrice[0], purchaserName, itemDetails);
                     purchaseRecord.setId(purchaseRecordId); // Set the ID of the PurchaseRecord
                     purchaseRef.setValue(purchaseRecord);

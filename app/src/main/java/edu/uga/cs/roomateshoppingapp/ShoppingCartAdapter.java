@@ -78,7 +78,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
                 shoppingListRef.child(item.getId()).child("price").setValue(price);
                 notifyItemChanged(position);
             } catch (NumberFormatException e) {
-                // Handle invalid input
                 Toast.makeText(holder.itemView.getContext(), "Invalid price", Toast.LENGTH_SHORT).show();
             }
         });
